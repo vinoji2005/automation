@@ -27,7 +27,7 @@ jobs:
           url: ${{ secrets.JENKINS_URL }}
           user: ${{ secrets.JENKINS_USER }}
           token: ${{ secrets.JENKINS_TOKEN }}
-          job: 'Pod Erro'
+          job: 'Github_Action'
           parameters: |
             POD_NAME=${{ github.event.inputs.POD_NAME }}
             NAMESPACE=${{ github.event.inputs.NAMESPACE }}
