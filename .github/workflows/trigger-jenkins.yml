@@ -9,9 +9,6 @@ on:
       NAMESPACE:
         description: 'Namespace of the pod'
         required: true
-      CONTAINER_NAME:
-        description: 'Container name'
-        required: true
 
 jobs:
   trigger-jenkins:
@@ -21,14 +18,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Trigger Jenkins Job
-        uses: appleboy/jenkins-action@v0.0.4
-        with:
-          url: ${{ secrets.JENKINS_URL }}
-          user: ${{ secrets.JENKINS_USER }}
-          token: ${{ secrets.JENKINS_TOKEN }}
-          job: 'Github_Action'
-          parameters: |
-            POD_NAME=${{ github.event.inputs.POD_NAME }}
-            NAMESPACE=${{ github.event.inputs.NAMESPACE }}
-            CONTAINER_NAME=${{ github.event.inputs.CONTAINER_NAME }}
+      - name: Github_Action
+        run: |
+          curl -X POST "${{ secrets.JENKINS_URL }}/job/your-jenkins-job-name/buildWithParameters" \
+          --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }}" \
+          --data "POD_NAME=${{ github.event.inputs.POD_NAME }}" \
+          --data "NAMESPACE=${{ github.event.inputs.NAMESPACE }}"
